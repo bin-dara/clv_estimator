@@ -1,10 +1,9 @@
+
 import streamlit as st
 import altair as alt
 import snowflake.connector
 import pandas as pd
 from cryptography.hazmat.primitives import serialization
-# Snowflake connection
-
 
 # ------------------------
 # SNOWFLAKE CONNECTION (cached)
@@ -13,7 +12,7 @@ from cryptography.hazmat.primitives import serialization
 def get_connection():
     private_key_bytes = st.secrets["snowflake"]["private_key"].encode()
     private_key = serialization.load_pem_private_key(private_key_bytes, password=None)
-    return snowflake.connector.connect(
+    conn = snowflake.connector.connect(
         account=st.secrets["snowflake"]["account"],
         user=st.secrets["snowflake"]["user"],
         role=st.secrets["snowflake"]["role"],
@@ -22,11 +21,17 @@ def get_connection():
         schema=st.secrets["snowflake"]["schema"],
         private_key=private_key,
     )
+    return conn
 
+# --- Initialize connection
 conn = get_connection()
+
+# --- Run SQL query
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM CLV.CLV_SCHEMA.CLV_TABLE LIMIT 1000")
-df = cursor.fetch_pandas_all()
+df = cursor.fetch_pandas_all()   # ✅ this gives you a pandas DataFrame
+
+st.dataframe(df)
 
 
 
@@ -176,6 +181,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
