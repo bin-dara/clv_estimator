@@ -66,10 +66,10 @@ st.markdown("""
     .sidebar-bottom {
         flex: 0 0 auto;   /* fixed at bottom */
         text-align: center;
-        padding: 50px 50px;
+        padding: 30px 30px;
         display: flex;
         justify-content: center;
-        gap: 20px;
+        gap: 15px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -202,6 +202,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
