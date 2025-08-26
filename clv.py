@@ -96,8 +96,7 @@ with st.sidebar:
 
 
 
-# --- Snowflake Connection ---
-conn = st.connection("snowflake")
+
 
 # --- Load CLV Data (preview only) ---
 df = conn.query("SELECT * FROM clv.clv_schema.clv_table LIMIT 1000", ttl=600)
@@ -169,4 +168,5 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
