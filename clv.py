@@ -30,9 +30,7 @@ conn = get_connection()
 # --- Run SQL query to preview CLV data ---
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM CLV.CLV_SCHEMA.CLV_TABLE LIMIT 1000")
-df = cursor.fetch_pandas_all()   # ✅ DataFrame now
 
-st.dataframe(df)
 
 
 # ------------------------
@@ -46,6 +44,13 @@ st.markdown("""
         display: flex;
         flex-direction: column;
     }
+
+    div[data-testid="stChatMessage"] > div:nth-child(1) {
+        display: none !important;
+    }
+    div[data-testid="stChatMessage"] > div:nth-child(2) {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
  
     /* Top (logo) */
     .sidebar-top {
@@ -109,7 +114,7 @@ with st.sidebar:
 # ------------------------
 # Chatbot
 # ------------------------
-st.title("💬 CLV Chatbot")
+st.title("CLV-Estimator")
 
 # --- Chat History ---
 if "messages" not in st.session_state:
@@ -175,3 +180,4 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
