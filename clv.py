@@ -4,18 +4,22 @@ import snowflake.connector
 import pandas as pd
 
 # Snowflake connection
+
+
+sf_secrets = st.secrets["snowflake"]
+
 conn = snowflake.connector.connect(
-    user='DARA_BINDARA',
-    password='Boolean@397060',
-    account='DIC19309.us-east-1',  # e.g., xyz12345.us-east-1
-    warehouse='COMPUTE_WH',
-    database='CLV',
-    schema='CLV_SCHEMA',
-    role='ACCOUNTADMIN'          # optional
+    user=sf_secrets["user"],
+    password=sf_secrets["password"],
+    account=sf_secrets["account"],
+    warehouse=sf_secrets["warehouse"],
+    database=sf_secrets["database"],
+    schema=sf_secrets["schema"],
+    role=sf_secrets.get("role")
 )
 
-# Query
 df = pd.read_sql("SELECT * FROM clv_table LIMIT 1000", conn)
+
 
 
 st.markdown("""
@@ -165,3 +169,4 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
