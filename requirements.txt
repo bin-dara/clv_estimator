@@ -1,13 +1,4 @@
-# Streamlit core
-streamlit>=1.25
-
-# Snowflake connector
-snowflake-connector-python>=3.0.0
-
-# Data handling
-pandas>=2.0
-numpy>=1.25
-
-# Charts & visualizations
-altair>=5.0
-vega_datasets>=0.9.0
+streamlit
+pandas
+altair
+snowflake-connector-python
