@@ -6,18 +6,25 @@ import pandas as pd
 # Snowflake connection
 
 
-sf_secrets = st.secrets["snowflake"]
-
-conn = snowflake.connector.connect(
-    user=sf_secrets["user"],
-    password=sf_secrets["password"],
-    account=sf_secrets["account"],
-    warehouse=sf_secrets["warehouse"],
-    database=sf_secrets["database"],
-    schema=sf_secrets["schema"],
-    role=sf_secrets.get("role")
-)
-
+# ------------------------
+# SNOWFLAKE CONNECTION (cached)
+# ------------------------
+@st.cache_resource
+def get_connection():
+    private_key_bytes = st.secrets["snowflake"]["private_key"].encode()
+    private_key = serialization.load_pem_private_key(private_key_bytes, password=None)
+    return snowflake.connector.connect(
+        account=st.secrets["snowflake"]["account"],
+        user=st.secrets["snowflake"]["user"],
+        role=st.secrets["snowflake"]["role"],
+        warehouse=st.secrets["snowflake"]["warehouse"],
+        database=st.secrets["snowflake"]["database"],
+        schema=st.secrets["snowflake"]["schema"],
+        private_key=private_key,
+    )
+ 
+conn = get_connection()
+cursor = conn.cursor()
 df = pd.read_sql("SELECT * FROM clv_table LIMIT 1000", conn)
 
 
@@ -168,5 +175,6 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
