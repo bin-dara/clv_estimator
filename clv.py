@@ -22,7 +22,8 @@ def get_connection():
         schema=st.secrets["snowflake"]["schema"],
         private_key=private_key,
     )
- 
+
+conn = get_connection()
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM CLV.CLV_SCHEMA.CLV_TABLE LIMIT 1000")
 df = cursor.fetch_pandas_all()
@@ -175,6 +176,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
