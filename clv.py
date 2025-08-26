@@ -1,4 +1,3 @@
-
 import streamlit as st
 import altair as alt
 import snowflake.connector
@@ -23,18 +22,22 @@ def get_connection():
     )
     return conn
 
+
 # --- Initialize connection
 conn = get_connection()
 
-# --- Run SQL query
+
+# --- Run SQL query to preview CLV data ---
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM CLV.CLV_SCHEMA.CLV_TABLE LIMIT 1000")
-df = cursor.fetch_pandas_all()   # ✅ this gives you a pandas DataFrame
+df = cursor.fetch_pandas_all()   # ✅ DataFrame now
 
 st.dataframe(df)
 
 
-
+# ------------------------
+# Sidebar Layout
+# ------------------------
 st.markdown("""
 <style>
     /* Sidebar as full-height flex column */
@@ -83,7 +86,7 @@ with st.sidebar:
         <div>
             <h5>🚀 About Us</h5>
             <p>We are a data-driven company helping businesses unlock insights
-        from their Customer Lifetime Value (CLV) data. Our mission is to make analytics "
+        from their Customer Lifetime Value (CLV) data. Our mission is to make analytics
         simple, actionable, and impactful.</p>
         </div>
     </div>
@@ -100,23 +103,13 @@ with st.sidebar:
             <img src="https://cdn-icons-png.flaticon.com/24/145/145807.png" width="24">
         </a>
     </div>
-
    """, unsafe_allow_html=True)
 
-   
 
-       
-
-
-
-
-
-# --- Load CLV Data (preview only) ---
-df = conn.query("SELECT * FROM clv.clv_schema.clv_table LIMIT 1000", ttl=600)
-
-# --- App Title ---
+# ------------------------
+# Chatbot
+# ------------------------
 st.title("💬 CLV Chatbot")
-
 
 # --- Chat History ---
 if "messages" not in st.session_state:
@@ -175,18 +168,10 @@ if prompt:
           ) AS RESPONSE
         )
         """
-        result = conn.query(sql)
-        answer = result["ANSWER"][0]
+        cursor.execute(sql)
+        result = cursor.fetchone()   # one row tuple
+        answer = result[0]
 
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
-
-
-
-
-
-
-
-
-
