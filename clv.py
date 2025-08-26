@@ -38,6 +38,43 @@ cursor.execute("SELECT * FROM CLV.CLV_SCHEMA.CLV_TABLE LIMIT 1000")
 # ------------------------
 st.markdown("""
 <style>
+    /* Sidebar as full-height flex column */
+    section[data-testid="stSidebar"] > div:first-child {
+        height: 100vh; 
+        display: flex;
+        flex-direction: column;
+    }
+ 
+    /* Top (logo) */
+    .sidebar-top {
+        flex: 0 0 auto;   /* fixed at top */
+        text-align: center;
+        padding: 10px 0;
+    }
+ 
+    /* Middle (About Us) */
+    .sidebar-middle {
+        flex: 1 0 auto;   /* take remaining space */
+        display: flex;
+        justify-content: center;  /* center horizontally */
+        align-items: center;      /* center vertically */
+        text-align: center;
+        padding: 50px;
+    }
+ 
+    /* Bottom (social icons) */
+    .sidebar-bottom {
+        flex: 0 0 auto;   /* fixed at bottom */
+        text-align: center;
+        padding: 30px 30px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+</style>
+""", unsafe_allow_html=True)
+st.markdown("""
+<style>
 
     section[data-testid="stSidebar"] > div:first-child {
         height: 100vh; 
@@ -165,6 +202,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
