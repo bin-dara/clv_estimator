@@ -82,7 +82,7 @@ with st.sidebar:
     </div>
     
     <div class="sidebar-bottom">
-        <a href="https://booleandata.ai/" target="_blank">🌐</a>
+        <a href="https://booleandata.ai/" target="_blank">🌐</a></a>
         <a href="https://www.facebook.com/Booleandata" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/24/1384/1384005.png" width="24">
         </a>
@@ -165,5 +165,6 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
