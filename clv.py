@@ -2,7 +2,7 @@ import streamlit as st
 import altair as alt
 import snowflake.connector
 import pandas as pd
-
+from cryptography.hazmat.primitives import serialization
 # Snowflake connection
 
 
@@ -175,6 +175,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
