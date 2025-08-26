@@ -23,9 +23,9 @@ def get_connection():
         private_key=private_key,
     )
  
-conn = get_connection()
 cursor = conn.cursor()
-df = pd.read_sql("SELECT * FROM clv_table LIMIT 1000", conn)
+cursor.execute("SELECT * FROM CLV.CLV_SCHEMA.CLV_TABLE LIMIT 1000")
+df = cursor.fetch_pandas_all()
 
 
 
@@ -175,6 +175,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
