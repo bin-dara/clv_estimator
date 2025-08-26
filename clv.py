@@ -136,7 +136,7 @@ with st.sidebar:
 # ------------------------
 # Chatbot
 # ------------------------
-st.title("CLV-Estimator")
+st.title("CLTV-Estimator")
 
 # --- Chat History ---
 if "messages" not in st.session_state:
@@ -202,6 +202,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
