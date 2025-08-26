@@ -11,7 +11,7 @@ from cryptography.hazmat.primitives import serialization
 # ------------------------
 @st.cache_resource
 def get_connection():
-    private_key_bytes = st.secrets["snowflake"]["private_key"].encode()
+    private_key_bytes = st.secrets["snowflake"]["private key"].encode()
     private_key = serialization.load_pem_private_key(private_key_bytes, password=None)
     return snowflake.connector.connect(
         account=st.secrets["snowflake"]["account"],
@@ -20,7 +20,7 @@ def get_connection():
         warehouse=st.secrets["snowflake"]["warehouse"],
         database=st.secrets["snowflake"]["database"],
         schema=st.secrets["snowflake"]["schema"],
-        private_key=private_key,
+        private key=private_key,
     )
  
 conn = get_connection()
@@ -175,6 +175,7 @@ if prompt:
         with st.chat_message("assistant"):
             st.markdown(answer)
         st.session_state["messages"].append({"role": "assistant", "content": answer})
+
 
 
 
